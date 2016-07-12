@@ -1,4 +1,6 @@
-# dairy.js
+# dairy.py
+
+This is a fork of dairy.js by jvail. I am looking into the feasability of translating this code into python, so as to use it for Agricultural-Simulation, my current project. Details below apply to dairy.js at the time of forking.
 
 dairy.js is a JavaScript library covering routines to simulate dairy cow herds on a daily timestep through the lifespan of an animal for both productive cows and young stock.
 
