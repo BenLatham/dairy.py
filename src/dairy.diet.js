@@ -59,7 +59,7 @@ var GLP_MIN = 1  /* minimization */
   ;
 
 if (ENVIRONMENT_IS_NODE) {
-  glpk = require('./lib/glpk.js');
+  glpk = require('../lib/glpk.js');
 } else if (ENVIRONMENT_IS_WEB) {
   glpk = new Worker('./lib/glpk.js');
   glpk.onmessage = function (evt) {

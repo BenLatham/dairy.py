@@ -28,8 +28,8 @@
 
 */
 
-dairy.feed = dairy.feed || {};
-dairy.feed.feeds = [
+feed = {};
+feed.feeds = [
 /*
   id []
   type []

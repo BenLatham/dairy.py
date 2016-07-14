@@ -1,7 +1,5 @@
 import unittest
 
-import body
-
 class TestBodyFunctions(unittest.TestCase):
     def test_BCS_max(self):
         self.assertAlmostEqual(body.BCS(340, 12, 60, 60), body.BCS_MAX, places=7,

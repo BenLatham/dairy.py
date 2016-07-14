@@ -426,20 +426,21 @@ var get = function (cow, feeds, options) {
     , RNB_lb = options.RNB_lb
     , conc_mx = options.conc_mx /* should not be larger than 0.5 */
     , eval_sys = options.eval_sys
-    , LP = {
+    , LP = { //Linear programming object {BEN}
         name: name,
         objective: {
-          direction: GLP_MAX,
-          name: 'obj',
-          vars: []
+          direction: GLP_MAX, //sets the direction of the optimisation to maximisation {BEN}
+          name: 'obj', //names this object as the objective {BEN}
+          vars: [] //list of variables {BEN}
         },
         subjectTo: [],
         bounds: []
       }
     ;
 
+//list of variables with their coefficients {BEN}
   LP.objective.vars.push({
-    name: 'dE',
+    name: 'dE', // energy digestibility {BEN}
     coef: -10 
   });
 
@@ -460,7 +461,7 @@ var get = function (cow, feeds, options) {
 
   var subjectTo = [];
 
-  var E_const = {
+  var E_const = { //set the "E constant" -bounds for this constant are fixed at 1 {BEN}
     name: 'E',
     vars: [ 
       { name: 'dE', coef:  1 },
@@ -469,7 +470,7 @@ var get = function (cow, feeds, options) {
     bnds: { type: GLP_FX, ub: 1.0, lb: 1.0 } 
   }; 
 
-  var P_const = {
+  var P_const = { //set the "P constant" -bounds for this constant are fixed at 1 {BEN}
     name: 'P',
     vars: [ 
       { name: 'dP', coef:  1 },
@@ -478,16 +479,16 @@ var get = function (cow, feeds, options) {
     bnds: { type: GLP_FX, ub: 1.0, lb: 1.0 } 
   }; 
 
-  var RNB_bnd_type = -1;
-  if (RNB_lb === RNB_ub)
+  var RNB_bnd_type = -1; //set the dafault bound type for ruminant nitrogen balance -1 presumably flags an error e.g if ub<lb  {BEN}
+  if (RNB_lb === RNB_ub) // if the two bounds provided are equal then the bound type is fixed  {BEN}
     RNB_bnd_type = GLP_FX;
-  else if (RNB_lb === -Infinity && RNB_ub === Infinity)
+  else if (RNB_lb === -Infinity && RNB_ub === Infinity) //if both bounds are infinite the bound type is free {BEN}
     RNB_bnd_type = GLP_FR;
-  else if (RNB_lb === -Infinity && RNB_ub < Infinity)
+  else if (RNB_lb === -Infinity && RNB_ub < Infinity) //if upper bound is infinite the bound type is lower bound {BEN}
     RNB_bnd_type = GLP_UP;
-  else if (RNB_lb > -Infinity && RNB_ub === Infinity)
+  else if (RNB_lb > -Infinity && RNB_ub === Infinity) //if lower bound is infinite the bound type is upper bound {BEN}
     RNB_bnd_type = GLP_LO;
-  else if (RNB_lb != -Infinity && RNB_ub != Infinity)
+  else if (RNB_lb != -Infinity && RNB_ub != Infinity) //if both bounds are not equal of infinite type is double bound {BEN}
     RNB_bnd_type = GLP_DB;
 
   var RNB_const = {
@@ -518,7 +519,7 @@ var get = function (cow, feeds, options) {
     var feed = feeds[f];
 
     if (conc_mx === 0 && feed.type === 'concentrate')
-      continue;
+      continue; //jumps remainder of loop if the option for concentrate in the mix is set to 0 and the current foodstuff is concentrate {BEN}
 
     E_const.vars.push({
       name: 'F_' + feed.id,
